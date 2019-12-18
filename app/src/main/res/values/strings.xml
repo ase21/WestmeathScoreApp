@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Westmeath Score App</string>
+    <string name="gaa">WESTMEATH GAA</string>
+    <string name="upload_image">UPLOAD IMAGE</string>
+    <string name="tag">TAGS OR #TAGS</string>
+    <string name="social_title">Social Title</string>
+    <string name="tweet_information">TWEET INFORMATION</string>
+</resources>
