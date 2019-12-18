@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground">
@@ -42,6 +41,7 @@
         android:background="@drawable/background_text_white"
         android:gravity="center_horizontal"
         android:hint="@string/social_title"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -65,12 +65,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/tweetInformationEditText"
-        app:layout_constraintTop_toBottomOf="@+id/socialTitleEditText"
-        tools:layout_editor_absoluteX="1dp"></LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/socialTitleEditText"></LinearLayout>
 
     <EditText
         android:id="@+id/tweetInformationEditText"
@@ -84,6 +85,7 @@
         android:gravity="center"
         android:hint="@string/tweet_information"
         android:lines="3"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,13 +93,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/tagEditText"
-        app:layout_constraintTop_toBottomOf="@+id/tweetInformationEditText"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="365dp"></LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tweetInformationEditText"></LinearLayout>
 
     <EditText
         android:id="@+id/tagEditText"
@@ -109,6 +111,7 @@
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal"
         android:hint="@string/tag"
+        android:inputType="text"
         android:background="@drawable/background_text_white"
         app:layout_constraintBottom_toTopOf="@+id/getPhotoButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +138,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getPhotoButton"
-        tools:layout_editor_absoluteX="161dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getPhotoButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
