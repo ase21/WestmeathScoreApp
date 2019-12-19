@@ -5,4 +5,9 @@
     <string name="tag">TAGS OR #TAGS</string>
     <string name="social_title">Social Title</string>
     <string name="tweet_information">TWEET INFORMATION</string>
+    <string name="time">TIME</string>
+    <string name="menus">-</string>
+    <string name="plus">+</string>
+    <string name="start">START</string>
+    <string name="create_message">Create message</string>
 </resources>
