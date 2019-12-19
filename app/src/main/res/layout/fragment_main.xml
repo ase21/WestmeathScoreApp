@@ -89,6 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/socialTitleEditText">
 
         <EditText
+            android:id="@+id/timeTextView"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp"
@@ -96,7 +97,8 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:hint="@string/time" />
+            android:hint="@string/time"
+            android:inputType="number" />
 
         <Button
             android:layout_width="10dp"
@@ -117,12 +119,11 @@
                 android:layout_gravity="center"
                 tools:text="Half" />
 
-            <TextView
+            <Chronometer
+                android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                tools:text="Timer" />
-
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
@@ -133,6 +134,7 @@
             android:text="@string/plus" />
 
         <Button
+            android:id="@+id/startChronometerButton"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp"
