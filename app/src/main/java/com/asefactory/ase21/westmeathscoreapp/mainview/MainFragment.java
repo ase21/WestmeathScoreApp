@@ -42,7 +42,9 @@ public class MainFragment extends MvpAppCompatFragment {
         chronometer.setOnChronometerTickListener(chronometer -> {
             long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
 
-            if (elapsedMillis == Long.parseLong(timeTextView.getText().toString()) * 1000 * 60){
+            long time = Long.parseLong(timeTextView.getText().toString()) * 1000 * 60;
+
+            if (elapsedMillis > time){
                 chronometer.stop();
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 chronometerFlag = false;
