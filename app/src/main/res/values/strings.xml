@@ -10,4 +10,9 @@
     <string name="plus">+</string>
     <string name="start">START</string>
     <string name="create_message">Create message</string>
+    <string name="half_time">Half Time</string>
+    <string name="full_time">Full Time</string>
+    <string name="first_half">1st Half</string>
+    <string name="second_half">2nd Half</string>
+    <string name="half">Half</string>
 </resources>

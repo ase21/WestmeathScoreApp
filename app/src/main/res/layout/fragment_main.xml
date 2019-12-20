@@ -37,7 +37,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/westmeath_crest_logo" />
+            app:srcCompat="@drawable/westmeath_crest_logo"
+            tools:ignore="ContentDescription" />
 
         <EditText
             android:id="@+id/socialTitleEditText"
@@ -82,29 +83,18 @@
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/tweetInformationEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/socialTitleEditText">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/timeTextView"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
             android:hint="@string/time"
             android:inputType="number" />
-
-        <Button
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/menus" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -114,31 +104,26 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/halfNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="Half" />
+                android:text="@string/half" />
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:textSize="20sp"/>
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/plus" />
 
         <Button
             android:id="@+id/startChronometerButton"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:text="@string/start" />
@@ -148,32 +133,25 @@
     <EditText
         android:id="@+id/tweetInformationEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/background_text_white"
         android:gravity="center"
         android:hint="@string/tweet_information"
-        android:inputType="text"
+        android:inputType="textImeMultiLine"
         android:lines="3"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        android:minLines="3" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/tagEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tweetInformationEditText">
+        android:orientation="horizontal">
 
 
     </LinearLayout>
@@ -191,11 +169,7 @@
         android:background="@drawable/background_text_white"
         android:gravity="center_horizontal"
         android:hint="@string/tag"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/getPhotoButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/getPhotoButton"
@@ -208,21 +182,13 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/background_button_white"
-        android:text="@string/upload_image"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagEditText" />
+        android:text="@string/upload_image" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/create_message"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getPhotoButton" />
+        android:text="@string/create_message"/>
 
 </LinearLayout>
