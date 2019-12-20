@@ -32,6 +32,25 @@ public class MainFragment extends MvpAppCompatFragment {
     @BindView(R.id.halfNameTextView)
     TextView halfNameTextView;
 
+
+    @BindView(R.id.firstCommandNameEditText)
+    EditText firstCommandNameEditText;
+    @BindView(R.id.firstCommandsTotalPointsTextView)
+    TextView firstCommandsTotalPointsTextView;
+    @BindView(R.id.firstTeamGoalPlusButton)
+    Button firstTeamGoalPlusButton;
+    @BindView(R.id.firstTeamPointPlusButton)
+    Button firstTeamPointPlusButton;
+
+    @BindView(R.id.secondCommandNameEditText)
+    EditText secondCommandNameEditText;
+    @BindView(R.id.secondCommandsTotalPointsTextView)
+    TextView secondCommandsTotalPointsTextView;
+    @BindView(R.id.secondTeamGoalPlusButton)
+    Button secondTeamGoalPlusButton;
+    @BindView(R.id.secondTeamPointPlusButton)
+    Button secondTeamPointPlusButton;
+
     private Unbinder unbinder;
     private boolean chronometerStarted = false;
     private boolean isFirstHalfIsFinished = false;
@@ -111,4 +130,55 @@ public class MainFragment extends MvpAppCompatFragment {
             }
         });
     }
+
+
+    @OnClick({R.id.firstTeamGoalMinusButton, R.id.firstTeamGoalPlusButton, R.id.firstTeamPointPlusButton, R.id.firstTeamPointMinusButton})
+    void onFirstTeamButtonsClicked(View view) {
+        int firstTeamGoalsCount = Integer.parseInt(firstTeamGoalPlusButton.getText().toString());
+        int firstTeamPointsCount = Integer.parseInt(firstTeamPointPlusButton.getText().toString());
+        switch (view.getId()) {
+            case R.id.firstTeamGoalMinusButton:
+                firstTeamGoalsCount = firstTeamGoalsCount - 1;
+                break;
+            case R.id.firstTeamGoalPlusButton:
+                firstTeamGoalsCount = firstTeamGoalsCount + 1;
+                break;
+            case R.id.firstTeamPointPlusButton:
+                firstTeamPointsCount = firstTeamPointsCount + 1;
+                break;
+            case R.id.firstTeamPointMinusButton:
+                firstTeamPointsCount = firstTeamPointsCount - 1;
+                break;
+        }
+        int totalFirstTeamCount = firstTeamGoalsCount * 3 + firstTeamPointsCount;
+        firstTeamGoalPlusButton.setText(firstTeamGoalsCount+"");
+        firstTeamPointPlusButton.setText(firstTeamPointsCount+"");
+        firstCommandsTotalPointsTextView.setText(totalFirstTeamCount + " pts");
+    }
+
+
+    @OnClick({R.id.secondTeamGoalMinusButton, R.id.secondTeamGoalPlusButton, R.id.secondTeamPointPlusButton, R.id.secondTeamPointMinusButton})
+    void onSecondTeamButtonsClicked(View view) {
+        int secondTeamGoalsCount = Integer.parseInt(secondTeamGoalPlusButton.getText().toString());
+        int secondTeamPointsCount = Integer.parseInt(secondTeamPointPlusButton.getText().toString());
+        switch (view.getId()) {
+            case R.id.secondTeamGoalMinusButton:
+                secondTeamGoalsCount = secondTeamGoalsCount - 1;
+                break;
+            case R.id.secondTeamGoalPlusButton:
+                secondTeamGoalsCount = secondTeamGoalsCount + 1;
+                break;
+            case R.id.secondTeamPointPlusButton:
+                secondTeamPointsCount = secondTeamPointsCount + 1;
+                break;
+            case R.id.secondTeamPointMinusButton:
+                secondTeamPointsCount = secondTeamPointsCount - 1;
+                break;
+        }
+        int totalSecondTeamCount = secondTeamGoalsCount * 3 + secondTeamPointsCount;
+        secondTeamGoalPlusButton.setText(secondTeamGoalsCount+"");
+        secondTeamPointPlusButton.setText(secondTeamPointsCount+"");
+        secondCommandsTotalPointsTextView.setText(totalSecondTeamCount + " pts");
+    }
+
 }
