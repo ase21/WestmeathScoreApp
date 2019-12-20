@@ -7,7 +7,6 @@
     <string name="tweet_information">TWEET INFORMATION</string>
     <string name="time">TIME</string>
     <string name="menus">-</string>
-    <string name="plus">+</string>
     <string name="start">START</string>
     <string name="create_message">Create message</string>
     <string name="half_time">Half Time</string>
@@ -15,4 +14,12 @@
     <string name="first_half">1st Half</string>
     <string name="second_half">2nd Half</string>
     <string name="half">Half</string>
+    <string name="st_team">1st TEAM</string>
+    <string name="pts">0 pts</string>
+    <string name="nd_team">2nd TEAM</string>
+    <string name="zero">0</string>
+
+
+    <string name="int_to_string">%d</string>
+
 </resources>
