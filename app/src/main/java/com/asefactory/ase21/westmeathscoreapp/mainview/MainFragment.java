@@ -84,7 +84,7 @@ public class MainFragment extends MvpAppCompatFragment {
 
 
     @OnClick({R.id.firstTeamGoalMinusButton, R.id.firstTeamGoalPlusButton, R.id.firstTeamPointPlusButton, R.id.firstTeamPointMinusButton})
-    void onFirstTeamButtomsClicked(View view) {
+    void onFirstTeamButtonsClicked(View view) {
         int firstTeamGoalsCount = Integer.parseInt(firstTeamGoalPlusButton.getText().toString());
         int firstTeamPointsCount = Integer.parseInt(firstTeamPointPlusButton.getText().toString());
         switch (view.getId()) {
@@ -109,7 +109,7 @@ public class MainFragment extends MvpAppCompatFragment {
 
 
     @OnClick({R.id.secondTeamGoalMinusButton, R.id.secondTeamGoalPlusButton, R.id.secondTeamPointPlusButton, R.id.secondTeamPointMinusButton})
-    void onSecondTeamButtomsClicked(View view) {
+    void onSecondTeamButtonsClicked(View view) {
         int secondTeamGoalsCount = Integer.parseInt(secondTeamGoalPlusButton.getText().toString());
         int secondTeamPointsCount = Integer.parseInt(secondTeamPointPlusButton.getText().toString());
         switch (view.getId()) {
