@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.asefactory.ase21.westmeathscoreapp.mainview.MainFragment;
 
@@ -36,5 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("old")
                 .add(R.id.container, fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("ase21", "onStop: onStop");
+        super.onStop();
     }
 }

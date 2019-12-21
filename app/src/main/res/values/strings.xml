@@ -8,7 +8,8 @@
     <string name="time">TIME</string>
     <string name="menus">-</string>
     <string name="start">START</string>
-    <string name="create_message">Create message</string>
+    <string name="create_message">Share Score</string>
+    <string name="reset_message">Reset</string>
     <string name="half_time">Half Time</string>
     <string name="full_time">Full Time</string>
     <string name="first_half">1st Half</string>

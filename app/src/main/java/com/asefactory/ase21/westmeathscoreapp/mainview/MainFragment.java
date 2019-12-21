@@ -3,6 +3,7 @@ package com.asefactory.ase21.westmeathscoreapp.mainview;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.asefactory.ase21.westmeathscoreapp.MainActivity;
 import com.asefactory.ase21.westmeathscoreapp.R;
+import com.asefactory.ase21.westmeathscoreapp.data.SharePref;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,11 +78,33 @@ public class MainFragment extends Fragment {
 
     private void initUI(View view) {
         unbinder = ButterKnife.bind(this, view);
+        loadSavedState();
+    }
+
+    private void loadSavedState() {
+        chronometerStarted = SharePref.getInstance(getContext()).isChronometerStarted();
+        isFirstHalfIsFinished = SharePref.getInstance(getContext()).isFirstHalfFlag();
+        socialTitleEditText.setText(SharePref.getInstance(getContext()).getSocialTitle());
+        tweetInformationEditText.setText(SharePref.getInstance(getContext()).getTweetInformation());
+        tagEditText.setText(SharePref.getInstance(getContext()).getTag());
+        timeTextView.setText(SharePref.getInstance(getContext()).getTime());
+
+        firstCommandNameEditText.setText(SharePref.getInstance(getContext()).getFirstTeamName());
+        firstTeamGoalPlusButton.setText(SharePref.getInstance(getContext()).getFirstTeamGoals());
+        firstTeamPointPlusButton.setText(SharePref.getInstance(getContext()).getFirstTeamPoints());
+        firstCommandsTotalPointsTextView.setText(SharePref.getInstance(getContext()).getFirstTeamTotalPoints());
+
+        secondCommandNameEditText.setText(SharePref.getInstance(getContext()).getSecondTeamName());
+        secondTeamGoalPlusButton.setText(SharePref.getInstance(getContext()).getSecondTeamGoals());
+        secondTeamPointPlusButton.setText(SharePref.getInstance(getContext()).getSecondTeamPoints());
+        secondCommandsTotalPointsTextView.setText(SharePref.getInstance(getContext()).getSecondTeamTotalPoints());
+
+        initChronometer(SharePref.getInstance(getContext()).getSpendTime());
     }
 
     @OnClick(R.id.startChronometerButton)
     void onStartChronometerClicked() {
-        if(timeTextView.getText().toString().isEmpty()){
+        if (timeTextView.getText().toString().isEmpty()) {
             timeTextView.setError("Field is empty");
         } else {
             checkValidTextFields();
@@ -114,12 +138,39 @@ public class MainFragment extends Fragment {
             } else {
                 chronometer.stop();
                 chronometer.setTextColor(getResources().getColor(android.R.color.black));
+                startChronometerButton.setText(getResources().getText(R.string.start));
+                isFirstHalfIsFinished = false;
+                chronometerStarted = false;
+            }
+        }
+    }
+
+    private void initChronometer(long restoredTime) {
+        if (!isFirstHalfIsFinished) {
+            if (!chronometerStarted) {
+                prepareChronometer(SystemClock.elapsedRealtime() - restoredTime, firstHalfTime);
+                startChronometerButton.setText(getResources().getText(R.string.half_time));
+                halfNameTextView.setText(getResources().getText(R.string.first_half));
+            } else {
+                chronometer.stop();
+                chronometer.setTextColor(getResources().getColor(android.R.color.black));
                 startChronometerButton.setText(getResources().getText(R.string.second_half));
                 isFirstHalfIsFinished = true;
                 chronometerStarted = false;
             }
+        } else {
+            if (!chronometerStarted) {
+                prepareChronometer(SystemClock.elapsedRealtime() - restoredTime - firstHalfTime, secondHalfTime);
+                startChronometerButton.setText(getResources().getText(R.string.full_time));
+                halfNameTextView.setText(getResources().getText(R.string.second_half));
+            } else {
+                chronometer.stop();
+                chronometer.setTextColor(getResources().getColor(android.R.color.black));
+                startChronometerButton.setText(getResources().getText(R.string.start));
+                isFirstHalfIsFinished = false;
+                chronometerStarted = false;
+            }
         }
-
     }
 
     private void prepareChronometer(long l, long firstHalfTime) {
@@ -142,7 +193,6 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
 
     @OnClick({R.id.firstTeamGoalMinusButton, R.id.firstTeamGoalPlusButton, R.id.firstTeamPointPlusButton, R.id.firstTeamPointMinusButton})
     void onFirstTeamButtonsClicked(View view) {
@@ -167,9 +217,9 @@ public class MainFragment extends Fragment {
                 break;
         }
         int totalFirstTeamCount = firstTeamGoalsCount * 3 + firstTeamPointsCount;
-        firstTeamGoalPlusButton.setText(getResources().getString(R.string.int_to_textview,firstTeamGoalsCount));
+        firstTeamGoalPlusButton.setText(getResources().getString(R.string.int_to_textview, firstTeamGoalsCount));
         firstTeamPointPlusButton.setText(getResources().getString(R.string.int_to_textview, firstTeamPointsCount));
-        firstCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview,totalFirstTeamCount , "pts"));
+        firstCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview, totalFirstTeamCount, "pts"));
     }
 
 
@@ -198,7 +248,7 @@ public class MainFragment extends Fragment {
         int totalSecondTeamCount = secondTeamGoalsCount * 3 + secondTeamPointsCount;
         secondTeamGoalPlusButton.setText(getResources().getString(R.string.int_to_textview, secondTeamGoalsCount));
         secondTeamPointPlusButton.setText(getResources().getString(R.string.int_to_textview, secondTeamPointsCount));
-        secondCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview,totalSecondTeamCount, "pts"));
+        secondCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview, totalSecondTeamCount, "pts"));
     }
 
     @OnClick(R.id.createMessageButton)
@@ -223,5 +273,54 @@ public class MainFragment extends Fragment {
                         secondTeamPointPlusButton.getText().toString(),
                         secondCommandsTotalPointsTextView.getText().toString()
                 ));
+    }
+
+    @OnClick(R.id.resetMessageButton)
+    void onResetMessageButtonClicked() {
+        socialTitleEditText.setText("");
+        tweetInformationEditText.setText("");
+        tagEditText.setText("");
+        firstCommandNameEditText.setText("");
+        firstTeamGoalPlusButton.setText("0");
+        firstTeamPointPlusButton.setText("0");
+        firstCommandsTotalPointsTextView.setText("0 pts");
+        secondCommandNameEditText.setText("");
+        secondTeamGoalPlusButton.setText("0");
+        secondTeamPointPlusButton.setText("0");
+        secondCommandsTotalPointsTextView.setText("0 pts");
+        setChronometerTime(SystemClock.elapsedRealtime());
+        chronometer.stop();
+        timeTextView.setText("");
+        isFirstHalfIsFinished = false;
+        chronometerStarted = false;
+        halfNameTextView.setText(getResources().getText(R.string.first_half));
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("ase21", "onStop: onStop");
+        saveCurrentState();
+        super.onStop();
+    }
+
+    private void saveCurrentState() {
+        SharePref.getInstance(getContext()).putTitle(socialTitleEditText.getText().toString());
+        SharePref.getInstance(getContext()).putTweetInformation(tweetInformationEditText.getText().toString());
+        SharePref.getInstance(getContext()).putTag(tagEditText.getText().toString());
+        SharePref.getInstance(getContext()).putTime(timeTextView.getText().toString());
+        SharePref.getInstance(getContext()).putFirstHalfFlag(isFirstHalfIsFinished);
+        SharePref.getInstance(getContext()).putChronometerFlag(chronometerStarted);
+
+        SharePref.getInstance(getContext()).putFirstCommandName(firstCommandNameEditText.getText().toString());
+        SharePref.getInstance(getContext()).putFirstTeamGoal(firstTeamGoalPlusButton.getText().toString());
+        SharePref.getInstance(getContext()).putFirstTeamPoint(firstTeamPointPlusButton.getText().toString());
+        SharePref.getInstance(getContext()).putFirstCommandsTotalPoints(firstCommandsTotalPointsTextView.getText().toString());
+
+        SharePref.getInstance(getContext()).putSecondCommandName(secondCommandNameEditText.getText().toString());
+        SharePref.getInstance(getContext()).putSecondTeamGoal(secondTeamGoalPlusButton.getText().toString());
+        SharePref.getInstance(getContext()).putSecondTeamPoint(secondTeamPointPlusButton.getText().toString());
+        SharePref.getInstance(getContext()).putSecondCommandsTotalPoints(secondCommandsTotalPointsTextView.getText().toString());
+
+        SharePref.getInstance(getContext()).putSpendTime(chronometer.getBase());
     }
 }
