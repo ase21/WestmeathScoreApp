@@ -1,18 +1,23 @@
 package com.asefactory.ase21.westmeathscoreapp.mainview;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.asefactory.ase21.westmeathscoreapp.MainActivity;
 import com.asefactory.ase21.westmeathscoreapp.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ResultFragment extends Fragment {
@@ -22,28 +27,30 @@ public class ResultFragment extends Fragment {
     private static final String TWEET_INFORMATION = "tweetInformation";
     private static final String TAG = "tag";
     private static final String FIRST_TEAM_NAME = "firstTeamName";
-    private static final String FIRST_TEAM_GOALS  = "firstTeamGoals";
+    private static final String FIRST_TEAM_GOALS = "firstTeamGoals";
     private static final String FIRST_TEAM_POINTS = "firstTeamPoints";
     private static final String FIRST_TEAM_TOTAL_POINTS = "firstTeamTotalPoints";
     private static final String SECOND_TEAM_NAME = "secondTeamName";
     private static final String SECOND_TEAM_GOALS = "secondTeamGoals";
     private static final String SECOND_TEAM_POINTS = "secondTeamPoints";
     private static final String SECOND_TEAM_TOTAL_POINTS = "secondTeamTotalPoints";
+    @BindView(R.id.resultTextView)
+    TextView resultTextView;
 
     private Unbinder unbinder;
 
     static Fragment newInstance(String socialTitle,
-                                       long chronometer,
-                                       String tweetInformation,
-                                       String tag,
-                                       String firstTeamName,
-                                       String firstTeamGoals,
-                                       String firstTeamPoints,
-                                       String firstTeamTotalPoints,
-                                       String secondTeamName,
-                                       String secondTeamGoals,
-                                       String secondTeamPoints,
-                                       String secondTeamTotalPoints) {
+                                long chronometer,
+                                String tweetInformation,
+                                String tag,
+                                String firstTeamName,
+                                String firstTeamGoals,
+                                String firstTeamPoints,
+                                String firstTeamTotalPoints,
+                                String secondTeamName,
+                                String secondTeamGoals,
+                                String secondTeamPoints,
+                                String secondTeamTotalPoints) {
         ResultFragment fragment = new ResultFragment();
 
         Bundle args = new Bundle();
@@ -55,7 +62,7 @@ public class ResultFragment extends Fragment {
         args.putString(FIRST_TEAM_GOALS, firstTeamGoals);
         args.putString(FIRST_TEAM_POINTS, firstTeamPoints);
         args.putString(FIRST_TEAM_TOTAL_POINTS, firstTeamTotalPoints);
-        args.putString(SECOND_TEAM_NAME,  secondTeamName);
+        args.putString(SECOND_TEAM_NAME, secondTeamName);
         args.putString(SECOND_TEAM_GOALS, secondTeamGoals);
         args.putString(SECOND_TEAM_POINTS, secondTeamPoints);
         args.putString(SECOND_TEAM_TOTAL_POINTS, secondTeamTotalPoints);
@@ -74,5 +81,99 @@ public class ResultFragment extends Fragment {
 
     private void initUI(View view) {
         unbinder = ButterKnife.bind(this, view);
+        formatResultString();
+    }
+
+    private void formatResultString() {
+        String socialTitle = "";
+        long chronometer = 0L;
+        String tweetInformation = "";
+        String tag = "";
+        String firstTeamName = "";
+        String firstTeamGoals = "";
+        String firstTeamPoints = "";
+        String firstTeamTotalPoints = "";
+        String secondTeamName = "";
+        String secondTeamGoals = "";
+        String secondTeamPoints = "";
+        String secondTeamTotalPoints = "";
+        if (getArguments() != null) {
+            if (getArguments().getString(SOCIAL_TITLE) != null) {
+                socialTitle = getArguments().getString(SOCIAL_TITLE);
+            }
+
+            chronometer = getArguments().getLong(CHRONOMETER, 0L);
+
+            if (getArguments().getString(TWEET_INFORMATION) != null) {
+                tweetInformation = getArguments().getString(TWEET_INFORMATION);
+            }
+            if (getArguments().getString(TAG) != null) {
+                tag = getArguments().getString(TAG);
+            }
+            if (getArguments().getString(FIRST_TEAM_NAME) != null) {
+                firstTeamName = getArguments().getString(FIRST_TEAM_NAME);
+            }
+            if (getArguments().getString(FIRST_TEAM_GOALS) != null) {
+                firstTeamGoals = getArguments().getString(FIRST_TEAM_GOALS);
+            }
+            if (getArguments().getString(FIRST_TEAM_POINTS) != null) {
+                firstTeamPoints = getArguments().getString(FIRST_TEAM_POINTS);
+            }
+            if (getArguments().getString(FIRST_TEAM_TOTAL_POINTS) != null) {
+                firstTeamTotalPoints = getArguments().getString(FIRST_TEAM_TOTAL_POINTS);
+            }
+            if (getArguments().getString(SECOND_TEAM_NAME) != null) {
+                secondTeamName = getArguments().getString(SECOND_TEAM_NAME);
+            }
+            if (getArguments().getString(SECOND_TEAM_GOALS) != null) {
+                secondTeamGoals = getArguments().getString(SECOND_TEAM_GOALS);
+            }
+            if (getArguments().getString(SECOND_TEAM_POINTS) != null) {
+                secondTeamPoints = getArguments().getString(SECOND_TEAM_POINTS);
+            }
+            if (getArguments().getString(SECOND_TEAM_TOTAL_POINTS) != null) {
+                secondTeamTotalPoints = getArguments().getString(SECOND_TEAM_TOTAL_POINTS);
+            }
+        }
+
+
+        String resultMessage = getResources().getString(R.string.result_string_format,
+                socialTitle,
+                convertTime(chronometer),
+                tweetInformation,
+                firstTeamName,
+                firstTeamGoals,
+                firstTeamPoints,
+                firstTeamTotalPoints,
+                secondTeamName,
+                secondTeamGoals,
+                secondTeamPoints,
+                secondTeamTotalPoints,
+                tag);
+        resultTextView.setText(resultMessage);
+    }
+
+    private String convertTime(long millis) {
+        long allSec = millis / 1000;
+        long min = allSec / 60;
+        long sec = allSec % 60;
+        return getResources().getString(R.string.int_with_int_to_textview,min , sec);
+    }
+
+    @OnClick(R.id.postMessageButton)
+    void onViewClicked() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, resultTextView.getText());
+        shareIntent.setType("text/plain");
+        startActivityForResult(Intent.createChooser(shareIntent,getResources().getString(R.string.share)), 21);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 21){
+            ((MainActivity) getActivity()).onBackPressed();
+        }
     }
 }

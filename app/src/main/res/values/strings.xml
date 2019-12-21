@@ -19,7 +19,15 @@
     <string name="nd_team">2nd TEAM</string>
     <string name="zero">0</string>
 
+    <string name="tweet_structure">Tweet Structure</string>
 
-    <string name="int_to_string">%d</string>
+    <string name="int_to_textview">%d</string>
+    <string name="int_with_string_to_textview">%d %s</string>
+    <string name="int_with_int_to_textview">%d:%02d</string>
+    <string name="post_message">Post Message</string>
+
+    <string name="result_string_format">%s\n\n%s\n\n%s\n\n%s %s:%s (%s)\n\n%s %s:%s (%s)\n\n%s</string>
+    <string name="share">Share</string>
+
 
 </resources>

@@ -1,10 +1,12 @@
 package com.asefactory.ase21.westmeathscoreapp.mainview;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -32,7 +34,6 @@ public class MainFragment extends Fragment {
     Button startChronometerButton;
     @BindView(R.id.halfNameTextView)
     TextView halfNameTextView;
-
 
     @BindView(R.id.firstCommandsTotalPointsTextView)
     TextView firstCommandsTotalPointsTextView;
@@ -79,8 +80,12 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.startChronometerButton)
     void onStartChronometerClicked() {
-        checkValidTextFields();
-        initChronometer();
+        if(timeTextView.getText().toString().isEmpty()){
+            timeTextView.setError("Field is empty");
+        } else {
+            checkValidTextFields();
+            initChronometer();
+        }
     }
 
     private void checkValidTextFields() {
@@ -162,9 +167,9 @@ public class MainFragment extends Fragment {
                 break;
         }
         int totalFirstTeamCount = firstTeamGoalsCount * 3 + firstTeamPointsCount;
-        firstTeamGoalPlusButton.setText(firstTeamGoalsCount + "");
-        firstTeamPointPlusButton.setText(firstTeamPointsCount + "");
-        firstCommandsTotalPointsTextView.setText(totalFirstTeamCount + " pts");
+        firstTeamGoalPlusButton.setText(getResources().getString(R.string.int_to_textview,firstTeamGoalsCount));
+        firstTeamPointPlusButton.setText(getResources().getString(R.string.int_to_textview, firstTeamPointsCount));
+        firstCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview,totalFirstTeamCount , "pts"));
     }
 
 
@@ -191,17 +196,22 @@ public class MainFragment extends Fragment {
                 break;
         }
         int totalSecondTeamCount = secondTeamGoalsCount * 3 + secondTeamPointsCount;
-        secondTeamGoalPlusButton.setText(secondTeamGoalsCount + "");
-        secondTeamPointPlusButton.setText(secondTeamPointsCount + "");
-        secondCommandsTotalPointsTextView.setText(totalSecondTeamCount + " pts");
+        secondTeamGoalPlusButton.setText(getResources().getString(R.string.int_to_textview, secondTeamGoalsCount));
+        secondTeamPointPlusButton.setText(getResources().getString(R.string.int_to_textview, secondTeamPointsCount));
+        secondCommandsTotalPointsTextView.setText(getResources().getString(R.string.int_with_string_to_textview,totalSecondTeamCount, "pts"));
     }
 
     @OnClick(R.id.createMessageButton)
     void onViewClicked() {
+        InputMethodManager inputManager = (InputMethodManager) getActivity()
+                .getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
         ((MainActivity) getActivity())
                 .showFragment(ResultFragment.newInstance(
                         socialTitleEditText.getText().toString(),
-                        chronometer.getBase(),
+                        SystemClock.elapsedRealtime() - chronometer.getBase(),
                         tweetInformationEditText.getText().toString(),
                         tagEditText.getText().toString(),
                         firstCommandNameEditText.getText().toString(),
