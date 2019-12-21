@@ -40,7 +40,7 @@ public class ResultFragment extends Fragment {
     private Unbinder unbinder;
 
     static Fragment newInstance(String socialTitle,
-                                long chronometer,
+                                String chronometer,
                                 String tweetInformation,
                                 String tag,
                                 String firstTeamName,
@@ -55,7 +55,7 @@ public class ResultFragment extends Fragment {
 
         Bundle args = new Bundle();
         args.putString(SOCIAL_TITLE, socialTitle);
-        args.putLong(CHRONOMETER, chronometer);
+        args.putString(CHRONOMETER, chronometer);
         args.putString(TWEET_INFORMATION, tweetInformation);
         args.putString(TAG, tag);
         args.putString(FIRST_TEAM_NAME, firstTeamName);
@@ -86,7 +86,7 @@ public class ResultFragment extends Fragment {
 
     private void formatResultString() {
         String socialTitle = "";
-        long chronometer = 0L;
+        String chronometer = "";
         String tweetInformation = "";
         String tag = "";
         String firstTeamName = "";
@@ -101,9 +101,9 @@ public class ResultFragment extends Fragment {
             if (getArguments().getString(SOCIAL_TITLE) != null) {
                 socialTitle = getArguments().getString(SOCIAL_TITLE);
             }
-
-            chronometer = getArguments().getLong(CHRONOMETER, 0L);
-
+            if (getArguments().getString(CHRONOMETER) != null) {
+                chronometer = getArguments().getString(CHRONOMETER);
+            }
             if (getArguments().getString(TWEET_INFORMATION) != null) {
                 tweetInformation = getArguments().getString(TWEET_INFORMATION);
             }
@@ -139,7 +139,7 @@ public class ResultFragment extends Fragment {
 
         String resultMessage = getResources().getString(R.string.result_string_format,
                 socialTitle,
-                convertTime(chronometer),
+                chronometer,
                 tweetInformation,
                 firstTeamName,
                 firstTeamGoals,
@@ -151,13 +151,6 @@ public class ResultFragment extends Fragment {
                 secondTeamTotalPoints,
                 tag);
         resultTextView.setText(resultMessage);
-    }
-
-    private String convertTime(long millis) {
-        long allSec = millis / 1000;
-        long min = allSec / 60;
-        long sec = allSec % 60;
-        return getResources().getString(R.string.int_with_int_to_textview,min , sec);
     }
 
     @OnClick(R.id.postMessageButton)

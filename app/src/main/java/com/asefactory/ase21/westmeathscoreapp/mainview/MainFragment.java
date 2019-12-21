@@ -211,7 +211,7 @@ public class MainFragment extends Fragment {
         ((MainActivity) getActivity())
                 .showFragment(ResultFragment.newInstance(
                         socialTitleEditText.getText().toString(),
-                        SystemClock.elapsedRealtime() - chronometer.getBase(),
+                        chronometer.getText().toString(),
                         tweetInformationEditText.getText().toString(),
                         tagEditText.getText().toString(),
                         firstCommandNameEditText.getText().toString(),
