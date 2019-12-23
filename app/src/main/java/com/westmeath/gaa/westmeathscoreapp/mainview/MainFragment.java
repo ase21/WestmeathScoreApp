@@ -1,4 +1,4 @@
-package com.asefactory.ase21.westmeathscoreapp.mainview;
+package com.westmeath.gaa.westmeathscoreapp.mainview;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.asefactory.ase21.westmeathscoreapp.MainActivity;
-import com.asefactory.ase21.westmeathscoreapp.R;
-import com.asefactory.ase21.westmeathscoreapp.data.SharePref;
+import com.westmeath.gaa.westmeathscoreapp.MainActivity;
+import com.westmeath.gaa.westmeathscoreapp.R;
+import com.westmeath.gaa.westmeathscoreapp.data.SharePref;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,7 +99,9 @@ public class MainFragment extends Fragment {
         secondTeamPointPlusButton.setText(SharePref.getInstance(getContext()).getSecondTeamPoints());
         secondCommandsTotalPointsTextView.setText(SharePref.getInstance(getContext()).getSecondTeamTotalPoints());
 
-        initChronometer(SharePref.getInstance(getContext()).getSpendTime());
+        if (!timeTextView.getText().toString().isEmpty()) {
+            initChronometer(SharePref.getInstance(getContext()).getSpendTime());
+        }
     }
 
     @OnClick(R.id.startChronometerButton)
@@ -120,7 +122,10 @@ public class MainFragment extends Fragment {
     private void initChronometer() {
         if (!isFirstHalfIsFinished) {
             if (!chronometerStarted) {
-                prepareChronometer(SystemClock.elapsedRealtime(), firstHalfTime);
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                setChronometerClickListener(firstHalfTime);
+                chronometer.start();
+                chronometerStarted = true;
                 startChronometerButton.setText(getResources().getText(R.string.half_time));
                 halfNameTextView.setText(getResources().getText(R.string.first_half));
             } else {
@@ -132,7 +137,10 @@ public class MainFragment extends Fragment {
             }
         } else {
             if (!chronometerStarted) {
-                prepareChronometer(SystemClock.elapsedRealtime() - firstHalfTime, secondHalfTime);
+                chronometer.setBase(SystemClock.elapsedRealtime() - firstHalfTime);
+                setChronometerClickListener(secondHalfTime);
+                chronometer.start();
+                chronometerStarted = true;
                 startChronometerButton.setText(getResources().getText(R.string.full_time));
                 halfNameTextView.setText(getResources().getText(R.string.second_half));
             } else {
@@ -146,45 +154,33 @@ public class MainFragment extends Fragment {
     }
 
     private void initChronometer(long restoredTime) {
+        checkValidTextFields();
         if (!isFirstHalfIsFinished) {
             if (!chronometerStarted) {
-                prepareChronometer(SystemClock.elapsedRealtime() - restoredTime, firstHalfTime);
-                startChronometerButton.setText(getResources().getText(R.string.half_time));
-                halfNameTextView.setText(getResources().getText(R.string.first_half));
+                startChronometerButton.setText(getResources().getText(R.string.start));
             } else {
-                chronometer.stop();
-                chronometer.setTextColor(getResources().getColor(android.R.color.black));
-                startChronometerButton.setText(getResources().getText(R.string.second_half));
-                isFirstHalfIsFinished = true;
-                chronometerStarted = false;
+                halfNameTextView.setText(getResources().getText(R.string.first_half));
+                chronometer.setBase(restoredTime);
+                startChronometerButton.setText(getResources().getText(R.string.half_time));
+                setChronometerClickListener(firstHalfTime);
+                chronometer.start();
             }
         } else {
             if (!chronometerStarted) {
-                prepareChronometer(SystemClock.elapsedRealtime() - restoredTime - firstHalfTime, secondHalfTime);
-                startChronometerButton.setText(getResources().getText(R.string.full_time));
-                halfNameTextView.setText(getResources().getText(R.string.second_half));
+                halfNameTextView.setText(getResources().getText(R.string.first_half));
+                chronometer.setBase(SystemClock.elapsedRealtime() - firstHalfTime);
+                startChronometerButton.setText(getResources().getText(R.string.second_half));
             } else {
-                chronometer.stop();
-                chronometer.setTextColor(getResources().getColor(android.R.color.black));
-                startChronometerButton.setText(getResources().getText(R.string.start));
-                isFirstHalfIsFinished = false;
-                chronometerStarted = false;
+                halfNameTextView.setText(getResources().getText(R.string.second_half));
+                chronometer.setBase(restoredTime);
+                startChronometerButton.setText(getResources().getText(R.string.full_time));
+                setChronometerClickListener(secondHalfTime);
+                chronometer.start();
             }
         }
     }
 
-    private void prepareChronometer(long l, long firstHalfTime) {
-        setChronometerTime(l);
-        setChronometerClickListiner(firstHalfTime);
-        chronometer.start();
-        chronometerStarted = true;
-    }
-
-    private void setChronometerTime(long time) {
-        chronometer.setBase(time);
-    }
-
-    private void setChronometerClickListiner(long firstHalfTime) {
+    private void setChronometerClickListener(long firstHalfTime) {
         chronometer.setOnChronometerTickListener(chronometer -> {
             long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
 
@@ -288,7 +284,9 @@ public class MainFragment extends Fragment {
         secondTeamGoalPlusButton.setText("0");
         secondTeamPointPlusButton.setText("0");
         secondCommandsTotalPointsTextView.setText("0 pts");
-        setChronometerTime(SystemClock.elapsedRealtime());
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.setTextColor(getResources().getColor(android.R.color.black));
+        startChronometerButton.setText(getResources().getText(R.string.start));
         chronometer.stop();
         timeTextView.setText("");
         isFirstHalfIsFinished = false;
@@ -321,6 +319,7 @@ public class MainFragment extends Fragment {
         SharePref.getInstance(getContext()).putSecondTeamPoint(secondTeamPointPlusButton.getText().toString());
         SharePref.getInstance(getContext()).putSecondCommandsTotalPoints(secondCommandsTotalPointsTextView.getText().toString());
 
-        SharePref.getInstance(getContext()).putSpendTime(chronometer.getBase());
+        long l = chronometer.getBase();
+        SharePref.getInstance(getContext()).putSpendTime(l);
     }
 }

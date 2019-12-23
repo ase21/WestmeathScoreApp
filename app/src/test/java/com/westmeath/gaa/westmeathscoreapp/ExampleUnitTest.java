@@ -1,4 +1,4 @@
-package com.asefactory.ase21.westmeathscoreapp;
+package com.westmeath.gaa.westmeathscoreapp;
 
 import org.junit.Test;
 

@@ -1,9 +1,8 @@
-package com.asefactory.ase21.westmeathscoreapp.data;
+package com.westmeath.gaa.westmeathscoreapp.data;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class SharePref {
 
@@ -137,26 +136,26 @@ public class SharePref {
          return sharedPreferences.getString(FIRST_TEAM_NAME, "");
     }
     public String getFirstTeamGoals(){
-        return sharedPreferences.getString(FIRST_TEAM_GOALS, "");
+        return sharedPreferences.getString(FIRST_TEAM_GOALS, "0");
     }
     public String getFirstTeamPoints(){
-        return sharedPreferences.getString(FIRST_TEAM_POINTS, "");
+        return sharedPreferences.getString(FIRST_TEAM_POINTS, "0");
     }
     public String getFirstTeamTotalPoints(){
-        return sharedPreferences.getString(FIRST_TEAM_TOTAL_POINTS, "");
+        return sharedPreferences.getString(FIRST_TEAM_TOTAL_POINTS, "0 pts");
     }
 
     public String getSecondTeamName(){
          return sharedPreferences.getString(SECOND_TEAM_NAME, "");
     }
     public String getSecondTeamGoals(){
-        return sharedPreferences.getString(SECOND_TEAM_GOALS, "");
+        return sharedPreferences.getString(SECOND_TEAM_GOALS, "0");
     }
     public String getSecondTeamPoints(){
-        return sharedPreferences.getString(SECOND_TEAM_POINTS, "");
+        return sharedPreferences.getString(SECOND_TEAM_POINTS, "0");
     }
     public String getSecondTeamTotalPoints(){
-        return sharedPreferences.getString(SECOND_TEAM_TOTAL_POINTS, "");
+        return sharedPreferences.getString(SECOND_TEAM_TOTAL_POINTS, "0 pts");
     }
 
     public void putSpendTime(long spendTime) {
